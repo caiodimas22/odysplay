@@ -36,7 +36,10 @@ src/main/java/com/aluno/projetoPro01/
 │   ├── Autor.java                  # Entidade de Autores (Atividade 2)
 │   ├── Editora.java                # Entidade de Editoras (Atividade 2)
 │   ├── Categoria.java              # Entidade de Categorias (Atividade 2)
-│   └── Livro.java                  # Entidade de Livros com FKs (Atividade 2)
+│   ├── Livro.java                  # Entidade de Livros com FKs (Atividade 2)
+│   ├── Cliente.java                # Entidade de Clientes (Atividade 3)
+│   ├── Pedido.java                 # Entidade de Pedidos (Atividade 3)
+│   └── Item.java                   # Entidade de Itens do Pedido (Atividade 3)
 └── repositories/                   # Camada de Persistência (Spring Data)
     ├── UserRepository.java
     ├── DevRepository.java
@@ -47,12 +50,15 @@ src/main/java/com/aluno/projetoPro01/
     ├── AutorRepository.java
     ├── EditoraRepository.java
     ├── CategoriaRepository.java
-    └── LivroRepository.java
+    ├── LivroRepository.java
+    ├── ClienteRepository.java
+    ├── PedidoRepository.java
+    └── ItemRepository.java
 ```
 
 ---
 
-## 🗄️ Modelagem das Entidades e Atributos
+## 🗄️ Modelagem das Entidades e Atributos (OdysPlay)
 
 Cada entidade foi anotada com `@Entity` e `@Table` para ser mapeada como tabela física no MySQL, contendo no mínimo 6 atributos e regras de validação aplicadas (comprimento, obrigatoriedade e valores únicos):
 
@@ -108,13 +114,20 @@ Cada entidade foi anotada com `@Entity` e `@Table` para ser mapeada como tabela 
 
 ---
 
-## 📚 Entidades Adicionais (Atividade Livraria)
+## 📚 Entidades Adicionais (Atividades Acadêmicas)
 
+### 📖 Livraria (Aula 02)
 Mapeamento com chaves estrangeiras utilizando `@ManyToOne` e `@JoinColumn`:
 *   **Autor**: Representa o autor dos livros.
 *   **Editora**: Representa a editora publicadora.
 *   **Categoria**: Categoria temática literária.
 *   **Livro**: Agrega as informações com chaves estrangeiras (`autor_id`, `editora_id`, `categoria_id`) no banco de dados.
+
+### 🛒 Vendas (Aula 03 - Desafio Prático)
+Mapeamento de relações 1:N e N:1 utilizando `@OneToMany`, `@ManyToOne` e `@JoinColumn`:
+*   **Cliente**: Possui uma lista de pedidos (`@OneToMany(mappedBy = "cliente")`).
+*   **Pedido**: Pertence a um cliente (`@ManyToOne`) e possui uma lista de itens (`@OneToMany(mappedBy = "pedido")`).
+*   **Item**: Pertence a um pedido (`@ManyToOne`), contendo nome, quantidade e preço.
 
 ---
 
@@ -128,4 +141,4 @@ Mapeamento com chaves estrangeiras utilizando `@ManyToOne` e `@JoinColumn`:
 3.  **Execução**:
     *   No VS Code, abra a classe `ProjetoPro01Application.java` e execute-a.
     *   O Spring Boot inicializará o Hibernate que criará a base de dados `odysplay` e gerará automaticamente todas as tabelas descritas acima.
-    *   Durante a inicialização, a classe principal executará um `CommandLineRunner` inserindo registros de teste das entidades da biblioteca no banco para verificação.
+    *   Durante a inicialização, a classe principal executará um `CommandLineRunner` inserindo registros de teste das entidades da biblioteca e de vendas no banco para verificação.

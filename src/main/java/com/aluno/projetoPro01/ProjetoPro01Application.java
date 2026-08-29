@@ -4,10 +4,16 @@ import com.aluno.projetoPro01.models.Autor;
 import com.aluno.projetoPro01.models.Categoria;
 import com.aluno.projetoPro01.models.Editora;
 import com.aluno.projetoPro01.models.Livro;
+import com.aluno.projetoPro01.models.Cliente;
+import com.aluno.projetoPro01.models.Pedido;
+import com.aluno.projetoPro01.models.Item;
 import com.aluno.projetoPro01.repositories.AutorRepository;
 import com.aluno.projetoPro01.repositories.CategoriaRepository;
 import com.aluno.projetoPro01.repositories.EditoraRepository;
 import com.aluno.projetoPro01.repositories.LivroRepository;
+import com.aluno.projetoPro01.repositories.ClienteRepository;
+import com.aluno.projetoPro01.repositories.PedidoRepository;
+import com.aluno.projetoPro01.repositories.ItemRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,9 +31,12 @@ public class ProjetoPro01Application {
 			AutorRepository autorRepository,
 			EditoraRepository editoraRepository,
 			CategoriaRepository categoriaRepository,
-			LivroRepository livroRepository) {
+			LivroRepository livroRepository,
+			ClienteRepository clienteRepository,
+			PedidoRepository pedidoRepository,
+			ItemRepository itemRepository) {
 		return args -> {
-			System.out.println("========== INICIANDO GRAVAÇÃO DE DADOS DE TESTE ==========");
+			System.out.println("========== INICIANDO GRAVAÇÃO DE DADOS DE TESTE (AULA 02) ==========");
 
 			// 1. Criar e salvar Autor
 			Autor autor = new Autor(null, "J.R.R. Tolkien", "tolkien@email.com");
@@ -48,6 +57,23 @@ public class ProjetoPro01Application {
 			Livro livro = new Livro(null, "O Senhor dos Anéis", "9788595086357", autor, editora, categoria);
 			livro = livroRepository.save(livro);
 			System.out.println("Livro salvo com sucesso! ID: " + livro.getId() + " - Título: " + livro.getTitulo());
+
+			System.out.println("========== INICIANDO GRAVAÇÃO DE DADOS DE TESTE (AULA 03) ==========");
+
+			// 5. Criar e salvar Cliente
+			Cliente cliente = new Cliente(null, "Caio Dimas", "caio.dimas@email.com");
+			cliente = clienteRepository.save(cliente);
+			System.out.println("Cliente salvo com sucesso! ID: " + cliente.getId() + " - Nome: " + cliente.getNome());
+
+			// 6. Criar e salvar Pedido
+			Pedido pedido = new Pedido(null, "Pedido de Equipamentos Gamer", cliente);
+			pedido = pedidoRepository.save(pedido);
+			System.out.println("Pedido salvo com sucesso! ID: " + pedido.getId() + " - Descrição: " + pedido.getDescricao());
+
+			// 7. Criar e salvar Item
+			Item item = new Item(null, "Teclado Mecânico RGB", 1, 350.00, pedido);
+			item = itemRepository.save(item);
+			System.out.println("Item salvo com sucesso! ID: " + item.getId() + " - Nome: " + item.getNome() + " - Preço: R$ " + item.getPreco());
 
 			System.out.println("========== GRAVAÇÃO DE TESTE CONCLUÍDA COM SUCESSO ==========");
 		};
